@@ -34,11 +34,14 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME}
         Lib/Logical_Analsyer/Inc/la_hw.h
+        Lib/Logical_Analsyer/Inc/la_sump.h
         Lib/Logical_Analsyer/Inc/la_types.h
         Lib/Logical_Analsyer/Inc/la_version.h
         Lib/Logical_Analsyer/Src/la_hw.c
-        Lib/Logical_Analsyer/Src/la_types.c
-        Lib/Logical_Analsyer/Src/la_version.c)
+        Lib/Logical_Analsyer/Src/la_sump.c
+        Lib/Circle_Buffer/Src/Circle_Buffer.c
+        Lib/Circle_Buffer/Inc/Circle_Buffer.h
+)
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)

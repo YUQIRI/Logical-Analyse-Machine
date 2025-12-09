@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "la_sump.h"
+#include "la_hw.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,7 +96,7 @@ int main(void)
   MX_TIM2_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  LA_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -103,7 +104,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    LogicalAnalyser();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

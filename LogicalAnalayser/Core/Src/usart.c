@@ -168,11 +168,11 @@ static uint8_t g_rxBuf[RX_BUFFER_SIZE];
 static CircleBuf g_uart1_rx;
 
 /* logical analyser*/
-static CircleBuf la_rx_buf;
-static p_circle_buf g_la_rx_buf;
-static uint8_t la_buf[RX_BUFFER_SIZE];
-static uint8_t *la_buf_pos=la_buf;
-static uint8_t g_rx_dma;
+// static CircleBuf la_rx_buf;
+// static p_circle_buf g_la_rx_buf;
+// static uint8_t la_buf[RX_BUFFER_SIZE];
+// static uint8_t *la_buf_pos=la_buf;
+// static uint8_t g_rx_dma;
 
 void UART1Start()
 {
@@ -183,18 +183,18 @@ void UART1Start()
   HAL_UART_Receive_IT(&huart1,&g_rxchar,1);
 }
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-  if (huart == &huart1)
-  {
-    g_RxCplt = 1;
-
-    Circle_Buf_Write(&g_uart1_rx,g_rxchar);
-    HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_15);
-
-    HAL_UART_Receive_IT(&huart1,&g_rxchar,1);
-  }
-}
+// void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+// {
+//   if (huart == &huart1)
+//   {
+//     g_RxCplt = 1;
+//
+//     Circle_Buf_Write(&g_uart1_rx,g_rxchar);
+//     HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_15);
+//
+//     HAL_UART_Receive_IT(&huart1,&g_rxchar,1);
+//   }
+// }
 
 void UARTWaitRxCplt(void)
 {

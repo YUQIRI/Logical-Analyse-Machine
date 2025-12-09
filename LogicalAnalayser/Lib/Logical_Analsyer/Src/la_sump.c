@@ -6,6 +6,8 @@
 #include "la_hw.h"
 #include "string.h"
 
+#define LA_NAME "LA_YUQIRI"
+
 /* Command opcodes */
 #define CMD_RESET                     0x00
 #define CMD_ARM_BASIC_TRIGGER         0x01
@@ -44,31 +46,71 @@
 #define METADATA_TOKEN_PROTOCOL_VERSION_SHORT 0x41
 
 #define RxReceiveTimeout HAL_MAX_DELAY
-
+#define LA_MAX_CHANNELS 0x10
+#define LA_MAX_FREQUENCY 10000000
 extern UART_HandleTypeDef huart1;
 
 /*scan*/
+#define LA_TIMEOUT 1000
+#define LA_RX_BUFSIZE 100
+#define LA_TIMEFOREVER ~0ul
+// static uint8_t la_rx_char;
+// static CircleBuf la_rx_buf;
+// static p_circle_buf g_la_rx_buf;
+// static uint8_t la_tem_buf[LA_RX_BUFSIZE];
+
+static uint8_t la_temp_buf[4];
+static volatile int la_rx_flag = 0;
+//static volatile int la_tx_flag = 0;
 
 
 
 
 void LogicalAnalyser()
 {
-    LA_Receive();
-    if (RxFlag == 1)
-    {
-        RxFlag = 0;
-        for (int i = 1; i < strlen((const char *)ReceData); ++i)
-        {
-            switch (ReceData[i])
-            {
-                //CMD_RESET
-                case 0x00:break;
 
-                //CMD_RESET
+    uint8_t cmd_buf[5];
+    uint8_t cmd_index = 0;
+
+    uint8_t cmd_byte;
+    while (1)
+    {
+        if (LA_UARTGetCharTimeout(&cmd_byte, LA_TIMEFOREVER) == 0)
+        {
+            cmd_buf[cmd_index] = cmd_byte;
+            switch (cmd_buf[0])
+            {
+            case CMD_RESET:
+                {
+                    break;
+                }
+            case CMD_ID:
+                {
+                    LA_Send_4Byte((uint8_t *)"1ALS");
+                    break;
+                }
+            case CMD_METADATA:
+                {
+                    LA_Send_byte((uint8_t *)0x01);
+                    LA_Send_String((uint8_t *)LA_NAME);
+                    LA_Send_byte(0x00);
+                    LA_Send_byte((uint8_t *)0x20);
+                    LA_Send_BigEndian(LA_MAX_CHANNELS,la_temp_buf);
+                    LA_Send_byte((uint8_t *)0x21);
+                    LA_Send_BigEndian(LA_RX_BUFSIZE,la_temp_buf);
+                    LA_Send_byte((uint8_t *)0x23);
+                    LA_Send_BigEndian(LA_MAX_FREQUENCY,la_temp_buf);
+                    LA_Send_byte(0x00);
+                    break;
+                }
 
 
             }
         }
     }
+
+
+
+
+
 }
