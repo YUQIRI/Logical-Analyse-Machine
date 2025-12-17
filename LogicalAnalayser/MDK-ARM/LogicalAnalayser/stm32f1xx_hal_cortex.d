@@ -1,0 +1,30 @@
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Core/Inc/stm32f1xx_hal_conf.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Include/core_cm3.h
+logicalanalayser\stm32f1xx_hal_cortex.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Include/cmsis_version.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
+logicalanalayser\stm32f1xx_hal_cortex.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
+logicalanalayser\stm32f1xx_hal_cortex.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
