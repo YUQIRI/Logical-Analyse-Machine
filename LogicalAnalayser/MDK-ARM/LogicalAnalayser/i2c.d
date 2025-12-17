@@ -1,0 +1,32 @@
+logicalanalayser\i2c.o: ../Core/Src/i2c.c
+logicalanalayser\i2c.o: ../Core/Inc/i2c.h
+logicalanalayser\i2c.o: ../Core/Inc/main.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+logicalanalayser\i2c.o: ../Core/Inc/stm32f1xx_hal_conf.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Include/core_cm3.h
+logicalanalayser\i2c.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Include/cmsis_version.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+logicalanalayser\i2c.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
+logicalanalayser\i2c.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
+logicalanalayser\i2c.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h

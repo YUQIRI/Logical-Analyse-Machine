@@ -1,0 +1,168 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.29.0.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: nana yuqiri, nana, LIC=CZLZX-H8HQ1-740S0-BP4QG-NK0D9-8ZBGC
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.29.0.0
+Toolchain Path:  E:\Program Files (x86)\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.29.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
+Dialog DLL:      TCM.DLL V1.36.5.0
+ 
+<h2>Project:</h2>
+E:\YUQIRI\Logical-Analyse-Machine\LogicalAnalayser\MDK-ARM\LogicalAnalayser.uvprojx
+Project File Date:  12/13/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\Program Files (x86)\Keil\ARM\ARMCC\Bin'
+Rebuild target 'LogicalAnalayser'
+assembling startup_stm32f103xb.s...
+compiling Circle_Buffer.c...
+compiling font.c...
+compiling stm32f1xx_hal_msp.c...
+compiling dma.c...
+compiling tim.c...
+compiling gpio.c...
+compiling la_sump.c...
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_sump.h(12): warning:  #1295-D: Deprecated declaration LogicalAnalyser - give arg types
+  void LogicalAnalyser();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_sump.h(14): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_SUMP_H
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_types.h(24): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_TYPES_H
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(16): warning:  #1295-D: Deprecated declaration LA_Read_Data_Byte - give arg types
+  int LA_Read_Data_Byte();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(17): warning:  #1295-D: Deprecated declaration LA_Read_Data - give arg types
+  int LA_Read_Data();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(25): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_HW_H
+..\Lib\Logical_Analsyer\Src\la_sump.c(116): warning:  #1-D: last line of file ends without a newline
+  }
+..\Lib\Logical_Analsyer\Src\la_sump.c: 7 warnings, 0 errors
+compiling stm32f1xx_hal_gpio_ex.c...
+compiling i2c.c...
+compiling stm32f1xx_hal.c...
+compiling stm32f1xx_it.c...
+compiling main.c...
+../Core/Inc/usart.h(44): warning:  #1295-D: Deprecated declaration UART1Start - give arg types
+    void UART1Start();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_sump.h(12): warning:  #1295-D: Deprecated declaration LogicalAnalyser - give arg types
+  void LogicalAnalyser();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_sump.h(14): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_SUMP_H
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_types.h(24): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_TYPES_H
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(16): warning:  #1295-D: Deprecated declaration LA_Read_Data_Byte - give arg types
+  int LA_Read_Data_Byte();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(17): warning:  #1295-D: Deprecated declaration LA_Read_Data - give arg types
+  int LA_Read_Data();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(25): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_HW_H
+../Core/Src/main.c: 7 warnings, 0 errors
+compiling la_hw.c...
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_types.h(24): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_TYPES_H
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(16): warning:  #1295-D: Deprecated declaration LA_Read_Data_Byte - give arg types
+  int LA_Read_Data_Byte();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(17): warning:  #1295-D: Deprecated declaration LA_Read_Data - give arg types
+  int LA_Read_Data();
+.\LogicalAnalayser\Lib\Logical_Analsyer\Inc\la_hw.h(25): warning:  #1-D: last line of file ends without a newline
+  #endif //LA_HW_H
+..\Lib\Logical_Analsyer\Src\la_hw.c(96): warning:  #68-D: integer conversion resulted in a change of sign
+          HAL_UART_Transmit(&huart1, sendata, 1, LA_TIMEOUT);
+..\Lib\Logical_Analsyer\Src\la_hw.c(104): warning:  #68-D: integer conversion resulted in a change of sign
+          HAL_UART_Transmit(&huart1, sendata, 4, LA_TIMEOUT);
+..\Lib\Logical_Analsyer\Src\la_hw.c(112): warning:  #68-D: integer conversion resulted in a change of sign
+          HAL_UART_Transmit(&huart1, sendata, sizeof(sendata), LA_TIMEOUT);
+..\Lib\Logical_Analsyer\Src\la_hw.c(124): warning:  #68-D: integer conversion resulted in a change of sign
+          HAL_UART_Transmit(&huart1, sendata, sizeof(sendata), LA_TIMEOUT);
+..\Lib\Logical_Analsyer\Src\la_hw.c(127): warning:  #1-D: last line of file ends without a newline
+  }
+..\Lib\Logical_Analsyer\Src\la_hw.c: 9 warnings, 0 errors
+compiling usart.c...
+../Core/Inc/usart.h(44): warning:  #1295-D: Deprecated declaration UART1Start - give arg types
+    void UART1Start();
+../Core/Src/usart.c: 1 warning, 0 errors
+compiling oled.c...
+.\LogicalAnalayser\Lib\SSD1306\Inc\oled.h(13): warning:  #1295-D: Deprecated declaration OLED_Init - give arg types
+  void OLED_Init();
+.\LogicalAnalayser\Lib\SSD1306\Inc\oled.h(14): warning:  #1295-D: Deprecated declaration OLED_DisPlay_On - give arg types
+  void OLED_DisPlay_On();
+.\LogicalAnalayser\Lib\SSD1306\Inc\oled.h(15): warning:  #1295-D: Deprecated declaration OLED_DisPlay_Off - give arg types
+  void OLED_DisPlay_Off();
+.\LogicalAnalayser\Lib\SSD1306\Inc\oled.h(17): warning:  #1295-D: Deprecated declaration OLED_NewFrame - give arg types
+  void OLED_NewFrame();
+.\LogicalAnalayser\Lib\SSD1306\Inc\oled.h(18): warning:  #1295-D: Deprecated declaration OLED_ShowFrame - give arg types
+  void OLED_ShowFrame();
+.\LogicalAnalayser\Lib\SSD1306\Inc\oled.h(35): warning:  #1-D: last line of file ends without a newline
+  #endif // __OLED_H__
+..\Lib\SSD1306\Src\oled.c: 6 warnings, 0 errors
+compiling stm32f1xx_hal_i2c.c...
+compiling stm32f1xx_hal_gpio.c...
+compiling stm32f1xx_hal_rcc_ex.c...
+compiling stm32f1xx_hal_cortex.c...
+compiling stm32f1xx_hal_pwr.c...
+compiling stm32f1xx_hal_exti.c...
+compiling stm32f1xx_hal_flash_ex.c...
+compiling stm32f1xx_hal_dma.c...
+compiling system_stm32f1xx.c...
+compiling stm32f1xx_hal_flash.c...
+compiling stm32f1xx_hal_rcc.c...
+compiling stm32f1xx_hal_tim_ex.c...
+compiling stm32f1xx_hal_uart.c...
+compiling stm32f1xx_hal_tim.c...
+linking...
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching usart.o(.bss).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching startup_stm32f103xb.o(STACK).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching startup_stm32f103xb.o(HEAP).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching libspace.o(.bss).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching i2c.o(.bss).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching tim.o(.bss).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching la_hw.o(.data).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching usart.o(.data).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching stm32f1xx_hal.o(.data).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching la_hw.o(.bss).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6406E: No space in execution regions with .ANY selector matching system_stm32f1xx.o(.data).
+LogicalAnalayser\LogicalAnalayser.axf: Error: L6407E: Sections of aggregate size 0x40810 bytes could not fit into .ANY selector(s).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 12 error messages.
+"LogicalAnalayser\LogicalAnalayser.axf" - 12 Error(s), 30 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.6.0.pack
+                ARM.CMSIS.5.6.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.3.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.2.0.pack
+                Keil.STM32F1xx_DFP.2.2.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_LogicalAnalayser
+  E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+  E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.3.0
+Target not created.
+Build Time Elapsed:  00:00:05
+</pre>
+</body>
+</html>

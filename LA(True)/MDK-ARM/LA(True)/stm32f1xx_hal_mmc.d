@@ -1,0 +1,31 @@
+la(true)\stm32f1xx_hal_mmc.o: ..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_mmc.c
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+la(true)\stm32f1xx_hal_mmc.o: ../Core/Inc/stm32f1xx_hal_conf.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Include/core_cm3.h
+la(true)\stm32f1xx_hal_mmc.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Include/cmsis_version.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
+la(true)\stm32f1xx_hal_mmc.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
+la(true)\stm32f1xx_hal_mmc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
