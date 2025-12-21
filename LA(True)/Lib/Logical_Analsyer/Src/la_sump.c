@@ -52,7 +52,7 @@
 
 la_status LA_UARTGetCharTimeout(uint8_t *pVal, int timeout);
 
-/*scan*/
+/* 扫描（scan） */
 #define LA_NAME "LA_YUQIRI"
 #define LA_TIMEOUT 1000
 #define LA_RX_BUFSIZE 100
@@ -63,8 +63,79 @@ la_status LA_UARTGetCharTimeout(uint8_t *pVal, int timeout);
 // static uint8_t la_tem_buf[LA_RX_BUFSIZE];
 
 static uint8_t la_temp_buf[LA_RX_BUFSIZE];
-static volatile int la_rx_flag = 0;
+//static volatile int la_rx_flag = 0;
 //static volatile int la_tx_flag = 0;
+
+/* 参数设置（configuration） */
+
+static uint32_t triggerMask 	= 0;
+static uint32_t triggerValue 	= 0;
+static uint32_t triggerConfig	= 0;
+static uint32_t Divider 		= 0;
+static uint32_t ReadCount 		= 0;
+static uint32_t DelayCount	 	= 0;
+static uint32_t LA_Flags		= 0;
+static uint32_t sampleNumber	= 0;
+static uint32_t Flags		= 0;
+
+static void setTriggerMask(uint32_t s){
+	triggerMask = s;
+}
+
+static void setTriggerValue(uint32_t s){
+	triggerValue = s;
+}
+
+static void setTriggerConfig(uint32_t s){
+	triggerConfig = s;
+}
+
+static void setDivider(uint32_t s){
+	Divider = s;
+}
+
+static void setLA_Flags(uint32_t s){
+	LA_Flags = s;
+}
+
+static uint32_t min(uint32_t a,uint32_t b){
+	return (a < b) ? a : b ;
+}
+
+static void setsampleNumber(uint32_t s){
+	sampleNumber = min((uint32_t )LA_RX_BUFSIZE,s);
+}
+
+static void setDelayCount(uint32_t s){
+	DelayCount = s;
+}
+					
+static void setReadCount(uint32_t s){
+	ReadCount = s;
+}
+
+static void setFlags(uint32_t s){
+	Flags = s;
+}
+
+
+/* 采样环节 */
+static void start(void){
+/* 创建模拟采样数据，测试是否能正常跑通 */
+	for(uint32_t i = 0 ; i < sampleNumber; i++){
+		la_temp_buf[i] = i;
+	}
+}
+
+static void run(void){
+	/* 数据采样 */
+	start();
+	
+	/* 发送采样数据 */
+	LA_Send(la_temp_buf , sampleNumber );
+}
+
+
 
 void LogicalAnalyser()
 {
@@ -111,6 +182,120 @@ void LogicalAnalyser()
                     LA_Send_byte(0x00);
                     break;
                 }
+			case CMD_SET_BASIC_TRIGGER_MASK0:
+				{
+					/* 接收数据 */
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+					//循环5次，是因为上位机连续发5个字节，
+					//若不循环五次，就只接收第一个字节，剩下4字节消失
+					
+					/* 配置mask参数，小字节序 */
+					triggerMask = *(uint32_t * )(cmd_buf + 1);
+					//第一个 * (解引用操作符) 的意思：
+					//从 cmd_buffer 的第 1 个字节开始，
+					//连续读取 4 个字节，
+					//把它们解释为一个 32 位无符号整数
+					setTriggerMask(triggerMask);
+					break;
+				}
+			case CMD_SET_BASIC_TRIGGER_VALUE0:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+				
+					triggerValue = *(uint32_t * )(cmd_buf + 1);
+					setTriggerValue(triggerValue);
+					break;
+				}
+			case CMD_SET_BASIC_TRIGGER_CONFIG0:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+				
+					triggerConfig = *(uint32_t * )(cmd_buf + 1);
+					setTriggerConfig(triggerConfig);
+					break;
+				}
+			case CMD_SET_DIVIDER:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+				
+					Divider = *(uint32_t * )(cmd_buf + 1);
+					setDivider(Divider);
+					break;
+				}
+			/* 下位机采样buffer超过256K，接收以下三条指令 */
+			case CMD_CAPTURE_READCOUNT:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+				
+					// Deprecated: sample count is now set via CMD_CAPTURE_SIZE
+
+					break;
+				}
+			case CMD_CAPTURE_DELAYCOUNT:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+				
+					uint32_t DelayCount = *(uint32_t * )(cmd_buf + 1 );
+					setDelayCount(4 * DelayCount);
+					break;
+				}
+			case CMD_CAPTURE_SIZE:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+					
+					uint32_t DelayCount = *(uint32_t * )(cmd_buf + 1 );
+					uint32_t ReadCount = *(uint32_t * )(cmd_buf + 1 );
+					setDelayCount(4 * DelayCount);
+					setReadCount(4 * ReadCount);
+				}
+				
+			case CMD_SET_FLAGS:
+				{
+					cmd_index++;
+					if(cmd_index < 5){
+						continue;
+					}
+					
+					setFlags(*(uint32_t *)(cmd_buf + 1));
+				}
+				
+			/* 采样 */
+			case CMD_ARM_BASIC_TRIGGER:
+				{
+					run();
+				}
+			case CMD_XON:
+				{
+					break;
+				}
+			case CMD_XOFF:
+				{
+					break;
+				}
+			default:
+				{
+				}
             }
 			memset(cmd_buf,0,sizeof(cmd_buf));
         }

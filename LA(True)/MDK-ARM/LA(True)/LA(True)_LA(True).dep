@@ -1,7 +1,7 @@
 Dependencies for Project 'LA(True)', Target 'LA(True)': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
 F (startup_stm32f103xb.s)(0x694166B6)(--cpu Cortex-M3 -g --apcs=interwork -I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1"--list startup_stm32f103xb.lst --xref -o la(true)\startup_stm32f103xb.o --depend la(true)\startup_stm32f103xb.d)
-F (../Core/Src/main.c)(0x69416C32)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\main.o --omf_browse la(true)\main.crf --depend la(true)\main.d)
+F (../Core/Src/main.c)(0x6942C4B3)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\main.o --omf_browse la(true)\main.crf --depend la(true)\main.d)
 I (../Core/Inc/main.h)(0x693E6648)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68765CC7)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x693E8257)
@@ -38,7 +38,7 @@ I (../Core/Inc/spi.h)(0x693E8257)
 I (../Core/Inc/tim.h)(0x693E8257)
 I (../Core/Inc/usart.h)(0x693E6648)
 I (../Core/Inc/gpio.h)(0x693E6647)
-I (../Core/Inc/la_hw.h)(0x693E835D)
+I (../Core/Inc/la_hw.h)(0x69480273)
 I (../Core/Inc/la_types.h)(0x693E7AE1)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9AD218)
 I (../Core/Inc/Circle_Buffer.h)(0x692EF770)
@@ -208,7 +208,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x68765CC7)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x68765CC7)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x68765CC7)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x68765CC7)
-F (../Core/Src/usart.c)(0x6942C183)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\usart.o --omf_browse la(true)\usart.crf --depend la(true)\usart.d)
+F (../Core/Src/usart.c)(0x6944DC20)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\usart.o --omf_browse la(true)\usart.crf --depend la(true)\usart.d)
 I (../Core/Inc/usart.h)(0x693E6648)
 I (../Core/Inc/main.h)(0x693E6648)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x68765CC7)
@@ -848,8 +848,8 @@ I (..\Lib\Circle_Buffer\Src\../Inc/Circle_Buffer.h)(0x692EF770)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdio.h)(0x5D9AD21A)
 F (..\Core\Inc\Circle_Buffer.h)(0x692EF770)()
-F (..\Lib\Logical_Analsyer\Src\la_hw.c)(0x6942C485)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\la_hw.o --omf_browse la(true)\la_hw.crf --depend la(true)\la_hw.d)
-I (../Core/Inc/la_hw.h)(0x693E835D)
+F (..\Lib\Logical_Analsyer\Src\la_hw.c)(0x6948025E)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\la_hw.o --omf_browse la(true)\la_hw.crf --depend la(true)\la_hw.d)
+I (../Core/Inc/la_hw.h)(0x69480273)
 I (../Core/Inc/la_types.h)(0x693E7AE1)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9AD218)
@@ -885,12 +885,12 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x68765CC7)
 I (../Core/Inc/Circle_Buffer.h)(0x692EF770)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdio.h)(0x5D9AD21A)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\string.h)(0x5D9AD218)
-F (..\Lib\Logical_Analsyer\Src\la_sump.c)(0x6942C08A)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\la_sump.o --omf_browse la(true)\la_sump.crf --depend la(true)\la_sump.d)
+F (..\Lib\Logical_Analsyer\Src\la_sump.c)(0x694802C3)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_LA_True_-I"E:\Program Files (x86)\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include"-I"E:\Program Files (x86)\Keil\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include"-D__UVISION_VERSION="529" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o la(true)\la_sump.o --omf_browse la(true)\la_sump.crf --depend la(true)\la_sump.d)
 I (../Core/Inc/la_sump.h)(0x693E7AE1)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdio.h)(0x5D9AD21A)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdlib.h)(0x5D9AD21A)
-I (../Core/Inc/la_hw.h)(0x693E835D)
+I (../Core/Inc/la_hw.h)(0x69480273)
 I (../Core/Inc/la_types.h)(0x693E7AE1)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9AD218)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\stddef.h)(0x5D9AD218)
@@ -924,7 +924,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x68765CC7)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x68765CC7)
 I (../Core/Inc/Circle_Buffer.h)(0x692EF770)
 I (E:\Program Files (x86)\Keil\ARM\ARMCC\include\string.h)(0x5D9AD218)
-F (..\Core\Inc\la_hw.h)(0x693E835D)()
+F (..\Core\Inc\la_hw.h)(0x69480273)()
 F (..\Core\Inc\la_sump.h)(0x693E7AE1)()
 F (..\Core\Inc\la_types.h)(0x693E7AE1)()
 F (..\Core\Inc\la_version.h)(0x692EF770)()

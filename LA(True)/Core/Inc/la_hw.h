@@ -21,5 +21,6 @@ la_status LA_Send_4Byte(uint8_t *sendata);
 la_status LA_Send_String(uint8_t *sendata);
 la_status LA_Send_BigEndian(uint32_t data, uint8_t *sendata);
 la_status LA_UARTGetCharTimeout(uint8_t *pVal, int timeout);
+la_status LA_Send(uint8_t *sendata, uint32_t Size);
 
 #endif //LA_HW_H
