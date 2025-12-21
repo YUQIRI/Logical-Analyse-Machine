@@ -1,1 +1,10 @@
----- api Matches (0 in 0 files) ----
+---- CMD_SET_BASIC_TRIGGER_MASK0 Matches (2 in 2 files) ----
+ols_set_basic_trigger_stage in protocol.c (libsigrok\src\hardware\openbench-logic-sniffer) : 	cmd = CMD_SET_BASIC_TRIGGER_MASK0 + stage * 4;
+protocol.h (libsigrok\src\hardware\openbench-logic-sniffer) line 55 : #define CMD_SET_BASIC_TRIGGER_MASK0   0xC0 /* 4 stages: 0xC0, 0xC4, 0xC8, 0xCC */
+---- cur_samplerate_divider Matches (6 in 2 files) ----
+ols_set_samplerate in protocol.c (libsigrok\src\hardware\openbench-logic-sniffer) : 		devc->cur_samplerate_divider =
+ols_set_samplerate in protocol.c (libsigrok\src\hardware\openbench-logic-sniffer) : 		devc->cur_samplerate_divider = (CLOCK_RATE / samplerate) - 1;
+ols_set_samplerate in protocol.c (libsigrok\src\hardware\openbench-logic-sniffer) : 	devc->cur_samplerate = CLOCK_RATE / (devc->cur_samplerate_divider + 1);
+ols_prepare_acquisition in protocol.c (libsigrok\src\hardware\openbench-logic-sniffer) : 	       devc->cur_samplerate, devc->cur_samplerate_divider);
+ols_prepare_acquisition in protocol.c (libsigrok\src\hardware\openbench-logic-sniffer) : 			      devc->cur_samplerate_divider & 0x00FFFFFF) != SR_OK)
+dev_context in protocol.h (libsigrok\src\hardware\openbench-logic-sniffer) : 	uint32_t cur_samplerate_divider;

@@ -27,11 +27,24 @@ Project File Date:  12/16/2025
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\Program Files (x86)\Keil\ARM\ARMCC\Bin'
 Build target 'LA(True)'
-compiling la_hw.c...
+compiling la_sump.c...
+..\Lib\Logical_Analsyer\Src\la_sump.c(75): warning:  #550-D: variable "ReadCount"  was set but never used
+  static uint32_t ReadCount 		= 0;
+..\Lib\Logical_Analsyer\Src\la_sump.c(76): warning:  #550-D: variable "DelayCount"  was set but never used
+  static uint32_t DelayCount	 	= 0;
+..\Lib\Logical_Analsyer\Src\la_sump.c(77): warning:  #550-D: variable "LA_Flags"  was set but never used
+  static uint32_t LA_Flags		= 0;
+..\Lib\Logical_Analsyer\Src\la_sump.c(79): warning:  #550-D: variable "Flags"  was set but never used
+  static uint32_t Flags		= 0;
+..\Lib\Logical_Analsyer\Src\la_sump.c(97): warning:  #177-D: function "setLA_Flags"  was declared but never referenced
+  static void setLA_Flags(uint32_t s){
+..\Lib\Logical_Analsyer\Src\la_sump.c(105): warning:  #177-D: function "setsampleNumber"  was declared but never referenced
+  static void setsampleNumber(uint32_t s){
+..\Lib\Logical_Analsyer\Src\la_sump.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=15560 RO-data=1460 RW-data=28 ZI-data=3540  
+Program Size: Code=15796 RO-data=1460 RW-data=60 ZI-data=3540  
 FromELF: creating hex file...
-"LA(True)\LA(True).axf" - 0 Error(s), 0 Warning(s).
+"LA(True)\LA(True).axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 

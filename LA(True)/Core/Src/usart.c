@@ -21,10 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-//#include "la_types.h"
-//#include "main.h"
-//#include "Circle_Buffer.h"
-//#include "string.h"
+
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -160,53 +157,5 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 }
 
 /* USER CODE BEGIN 1 */
-
-///* circle buffer def */
-//#define LA_TIMOUT 1000u
-//#define LA_RX_BUFSIZE 100
-////static uint8_t la_rx_char;
-//static CircleBuf la_rx_buf;
-//static p_circle_buf g_la_rx_buf = &la_rx_buf;
-//static uint8_t la_buf[LA_RX_BUFSIZE];
-//static uint8_t la_tem_buf[10];
-
-//void LA_Init(void)
-//{
-//    /* circle buffer init */
-//    Circle_Buf_Init( g_la_rx_buf,  LA_RX_BUFSIZE,  la_buf);
-
-//    /* set DMA to IDLE */
-//    HAL_UARTEx_ReceiveToIdle_DMA(&huart1, la_tem_buf,  LA_RX_BUFSIZE);
-//}
-
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//    //la_rx_flag = 1;
-//    if (huart == &huart1)
-//    {
-//        /* save data to buf */
-//        for (int i = 0; i < 10; i++)
-//        {
-//            Circle_Buf_Write(g_la_rx_buf, la_tem_buf[i]);
-//        }
-
-//        /* reset DMA to IDLE */
-//        HAL_UARTEx_ReceiveToIdle_DMA(&huart1, la_tem_buf,  LA_RX_BUFSIZE);
-//    }
-//}
-
-
-//la_status LA_UARTGetCharTimeout(uint8_t *pVal, int timeout)
-//{
-//    while (-1 == Circle_Buf_Read(g_la_rx_buf, pVal) && timeout)
-//    {
-//        HAL_Delay(1);
-//        timeout--;
-//    }
-//    if (timeout == 0)
-//        return LA_TIMEOUT;
-//    else
-//        return LA_OK;
-//}
 
 /* USER CODE END 1 */

@@ -92,6 +92,12 @@ int LA_Read_Data()
     return rx_byte;
 }
 
+la_status LA_Send(uint8_t *sendata, uint32_t Size)
+{
+	HAL_UART_Transmit(&huart1 , sendata, Size, LA_TIMOUT);
+	return LA_OK;
+}
+
 la_status LA_Send_byte(uint8_t *sendata)
 {
 
