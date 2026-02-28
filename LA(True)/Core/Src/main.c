@@ -61,7 +61,26 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+extern void Time_Measure(void);
 
+void TimeMeasure(void)
+{
+	//0.output 0
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_Delay(100);
+	//1.shut intr down
+	__disable_irq();
+	//2.(1)set 
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+	
+	//(2)run 
+	Time_Measure();
+	
+	//(3)reset
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+	//3.open intr
+	__enable_irq();
+}
 /* USER CODE END 0 */
 
 /**
@@ -123,16 +142,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-  
-	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
-	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
-	HAL_Delay(500);
-	dutycount = 0;
-	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
-	HAL_Delay(500);
-	dutycount = 1800;
-	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
-	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,300);
+	TimeMeasure();
+	
+//	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
+//	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
+//	HAL_Delay(500);
+//	dutycount = 0;
+//	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
+//	HAL_Delay(500);
+//	dutycount = 1800;
+//	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
+//	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,300);
+	
 //  if(duty < 100 && duty > 30){
 //  	htim2.Instance->CCR1 = duty++;}
 //	else if(duty >= 100){
