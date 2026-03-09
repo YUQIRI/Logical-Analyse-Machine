@@ -22,27 +22,27 @@ Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
 E:\YUQIRI\Logical-Analyse-Machine\LA(True)\MDK-ARM\LA(True).uvprojx
-Project File Date:  12/16/2025
+Project File Date:  03/09/2026
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\Program Files (x86)\Keil\ARM\ARMCC\Bin'
 Build target 'LA(True)'
 compiling la_sump.c...
-..\Lib\Logical_Analsyer\Src\la_sump.c(75): warning:  #550-D: variable "ReadCount"  was set but never used
-  static uint32_t ReadCount 		= 0;
-..\Lib\Logical_Analsyer\Src\la_sump.c(76): warning:  #550-D: variable "DelayCount"  was set but never used
-  static uint32_t DelayCount	 	= 0;
-..\Lib\Logical_Analsyer\Src\la_sump.c(77): warning:  #550-D: variable "LA_Flags"  was set but never used
-  static uint32_t LA_Flags		= 0;
-..\Lib\Logical_Analsyer\Src\la_sump.c(79): warning:  #550-D: variable "Flags"  was set but never used
-  static uint32_t Flags		= 0;
-..\Lib\Logical_Analsyer\Src\la_sump.c(97): warning:  #177-D: function "setLA_Flags"  was declared but never referenced
-  static void setLA_Flags(uint32_t s){
-..\Lib\Logical_Analsyer\Src\la_sump.c(105): warning:  #177-D: function "setsampleNumber"  was declared but never referenced
-  static void setsampleNumber(uint32_t s){
+..\Lib\Logical_Analsyer\Src\la_sump.c(605): warning:  #550-D: variable "g_samplingRate"  was set but never used
+  static uint32_t g_samplingRate = 0;          // 当前采样率
+..\Lib\Logical_Analsyer\Src\la_sump.c(607): warning:  #550-D: variable "g_sampleNumber"  was set but never used
+  static uint32_t g_sampleNumber = 0;          // 采样数量
+..\Lib\Logical_Analsyer\Src\la_sump.c(609): warning:  #550-D: variable "g_triggerValue"  was set but never used
+  static uint32_t g_triggerValue = 0;          // 触发值
+..\Lib\Logical_Analsyer\Src\la_sump.c(612): warning:  #177-D: variable "g_rxcnt_buf"  was declared but never referenced
+  static uint32_t g_rxcnt_buf[LA_RX_DATASIZE]; // 采样计数缓冲区
+..\Lib\Logical_Analsyer\Src\la_sump.c(613): warning:  #177-D: variable "g_cur_pos"  was declared but never referenced
+  static int32_t g_cur_pos = 0;                // 当前采样位置
+..\Lib\Logical_Analsyer\Src\la_sump.c(616): warning:  #550-D: variable "g_flags"  was set but never used
+  static uint32_t g_flags = 0;                 // 协议标志位
 ..\Lib\Logical_Analsyer\Src\la_sump.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=15796 RO-data=1460 RW-data=60 ZI-data=3540  
+Program Size: Code=9608 RO-data=312 RW-data=60 ZI-data=5812  
 FromELF: creating hex file...
 "LA(True)\LA(True).axf" - 0 Error(s), 6 Warning(s).
 

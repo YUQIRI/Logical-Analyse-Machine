@@ -19,17 +19,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma.h"
-#include "i2c.h"
-#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "la_hw.h"
+//#include "la_hw.h"
 #include "la_sump.h"
-#include "oled.h"
+//#include "oled.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,24 +61,24 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 extern void Time_Measure(void);
 
-void TimeMeasure(void)
-{
-	//0.output 0
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
-	HAL_Delay(100);
-	//1.shut intr down
-	__disable_irq();
-	//2.(1)set 
-	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
-	
-	//(2)run 
-	Time_Measure();
-	
-	//(3)reset
-	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
-	//3.open intr
-	__enable_irq();
-}
+//void TimeMeasure(void)
+//{
+//	//0.output 0
+//	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+//	HAL_Delay(100);
+//	//1.shut intr down
+//	__disable_irq();
+//	//2.(1)set 
+//	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+//	
+//	//(2)run 
+//	Time_Measure();
+//	
+//	//(3)reset
+//	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+//	//3.open intr
+//	__enable_irq();
+//}
 /* USER CODE END 0 */
 
 /**
@@ -114,36 +112,44 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_USART1_UART_Init();
-  MX_I2C1_Init();
-  MX_SPI1_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  
   /*la*/
+  
   	LA_Init();
-  /*oled*/
-	HAL_Delay(20);
-	OLED_Init();
-//	OLED_DisPlay_Off();
-//	HAL_Delay(10);
-//	OLED_DisPlay_On();
 	
-	OLED_NewFrame();
-	OLED_PrintASCIIString(10,10,"YUQIRI",&afont12x6,OLED_COLOR_NORMAL);
-	OLED_ShowFrame();
+//  /*oled*/
+
+//	HAL_Delay(20);
+//	OLED_Init();
+////	OLED_DisPlay_Off();
+////	HAL_Delay(10);
+////	OLED_DisPlay_On();
+//	
+//	OLED_NewFrame();
+//	OLED_PrintASCIIString(10,10,"YUQIRI",&afont12x6,OLED_COLOR_NORMAL);
+//	OLED_ShowFrame();
+
   /*pwm light*/
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
-	uint32_t dutycount = 600;
+  
+//	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
+//	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
+//	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
+//	uint32_t dutycount = 600;
 //	uint32_t duty = dutycount / 2000;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  
   while (1)
   {
-	TimeMeasure();
-	
+	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+	//TimeMeasure();
+	LogicalAnalyser();
 //	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
 //	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,dutycount);
 //	HAL_Delay(500);
@@ -161,7 +167,7 @@ int main(void)
 //	else if(duty <= 30){
 //	htim2.Instance->CCR1 = duty++;}
 	
-	LogicalAnalyser();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

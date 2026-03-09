@@ -10,5 +10,5 @@
 #include "stdlib.h"
 
 void LogicalAnalyser(void);
-
+void LA_Init(void);
 #endif //LA_SUMP_H

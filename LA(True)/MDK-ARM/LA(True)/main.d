@@ -24,25 +24,14 @@ la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 la(true)\main.o: ../Core/Inc/dma.h
-la(true)\main.o: ../Core/Inc/i2c.h
-la(true)\main.o: ../Core/Inc/spi.h
 la(true)\main.o: ../Core/Inc/tim.h
 la(true)\main.o: ../Core/Inc/usart.h
 la(true)\main.o: ../Core/Inc/gpio.h
-la(true)\main.o: ../Core/Inc/la_hw.h
-la(true)\main.o: ../Core/Inc/la_types.h
-la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
-la(true)\main.o: ../Core/Inc/Circle_Buffer.h
-la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdio.h
-la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\string.h
 la(true)\main.o: ../Core/Inc/la_sump.h
+la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
-la(true)\main.o: ../Core/Inc/oled.h
-la(true)\main.o: ../Core/Inc/font.h
