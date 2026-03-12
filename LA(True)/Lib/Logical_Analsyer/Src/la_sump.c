@@ -1,548 +1,6 @@
-//////
-////// Created by yuqiri on 2025/11/26.
-//////
-//#include "string.h"
-//#include "main.h"
-//#include "stdint.h"
-//#include "stdbool.h"
-//#include "stddef.h"
-
-///* 环形缓冲区头文件（需确保Circle_Buffer.h已实现） */
-//#include "Circle_Buffer.h"
-
-///* 返回码定义 */
-//typedef enum {
-//    LA_OK       = 0,
-//    LA_ERROR    = -1,
-//    LA_BUSY     = -2,
-//    LA_TIMEOUT  = -3,
-//    LA_INVAL    = -4
-//} la_status;
-
-///* 全局串口句柄（确保main.c中初始化huart1） */
-//extern UART_HandleTypeDef huart1;
-
-///* ===================== 环形缓冲区配置 ===================== */
-//#define LA_TIMOUT 100u
-//#define LA_RX_BUFSIZE 128
-
-//static CircleBuf la_rx_buf;
-//static p_circle_buf g_la_rx_buf = &la_rx_buf;
-//static uint8_t la_buf[LA_RX_BUFSIZE];
-//static uint8_t la_tem_buf[LA_RX_BUFSIZE]; // 修正：缓冲区大小匹配LA_RX_BUFSIZE
-
-///* ===================== 大端序定义 ===================== */
-//#define BYTE0(v) ((v >> 0)  & 0xff) // LSB
-//#define BYTE1(v) ((v >> 8)  & 0xff)
-//#define BYTE2(v) ((v >> 16) & 0xff)
-//#define BYTE3(v) ((v >> 24) & 0xff) // MSB
-
-///* ===================== 协议常量 ===================== */
-//#define CMD_RESET                     0x00
-//#define CMD_ARM_BASIC_TRIGGER         0x01
-//#define CMD_ID                        0x02
-//#define CMD_METADATA                  0x04
-//#define CMD_XON                       0x11
-//#define CMD_XOFF                      0x13
-//#define CMD_SET_DIVIDER               0x80
-//#define CMD_CAPTURE_SIZE              0x81
-//#define CMD_SET_FLAGS                 0x82
-//#define CMD_CAPTURE_DELAYCOUNT        0x83
-//#define CMD_CAPTURE_READCOUNT         0x84
-//#define CMD_SET_BASIC_TRIGGER_MASK0   0xC0
-//#define CMD_SET_BASIC_TRIGGER_VALUE0  0xC1
-//#define CMD_SET_BASIC_TRIGGER_CONFIG0 0xC2
-
-//#define METADATA_TOKEN_END                    0x00
-//#define METADATA_TOKEN_DEVICE_NAME            0x01
-//#define METADATA_TOKEN_NUM_PROBES_LONG        0x20
-//#define METADATA_TOKEN_SAMPLE_MEMORY_BYTES    0x21
-//#define METADATA_TOKEN_DYNAMIC_MEMORY_BYTES   0x22
-//#define METADATA_TOKEN_MAX_SAMPLE_RATE_HZ     0x23
-//#define METADATA_TOKEN_NUM_PROBES_SHORT       0x40
-//#define METADATA_TOKEN_PROTOCOL_VERSION_SHORT 0x41
-
-//#define LA_NAME "LA_YUQIRI"
-//#define LA_MAX_CHANNELS 8
-//#define LA_MAX_FREQUENCY 1000000  // 修正：1MHz（原10MHz超出F103能力）
-//#define LA_TIMEFOREVER 0xFFFFFFFFul
-
-///* ===================== 全局变量 ===================== */
-//// 采样相关
-//#define LA_RX_DATASIZE 1024
-//static uint32_t g_SampleRate = 0;
-//static uint8_t g_data_buf[LA_RX_DATASIZE];
-//static uint32_t g_cnt_buf[LA_RX_DATASIZE];
-
-//static uint32_t g_cur_sample_cnt = 0;
-//static uint32_t g_cur_pos = 0;
-
-//// 协议参数
-////static uint32_t triggerMask 	= 0;
-////static uint32_t triggerValue 	= 0;
-////static uint32_t triggerConfig	= 0;
-////static uint32_t Divider 		= 0;
-////static uint32_t ReadCount 		= 0;
-////static uint32_t DelayCount	 	= 0;
-//static uint32_t flags	= 0;
-//static uint32_t sampleNumber	= 0;
-//static uint32_t g_sampleDelay   = 0;
-//static uint32_t g_triggerState 	= 0; 
-//static uint32_t g_triggerMask   = 0;
-//static uint32_t g_triggerValue  = 0;
-//static uint32_t g_virtual_bufferSize = 0x40000000;
-////static uint32_t max_frequence = LA_MAX_FREQUENCY;
-//static volatile uint8_t get_stop_cmd = 0;
-
-///* ===================== 环形缓冲区+串口初始化 ===================== */
-//void LA_Init(void)
-//{
-//    /* 初始化环形缓冲区 */
-//    Circle_Buf_Init(g_la_rx_buf, LA_RX_BUFSIZE, la_buf);
-
-//    /* 启动DMA IDLE接收（关键：非阻塞接收） */
-//    HAL_UARTEx_ReceiveToIdle_DMA(&huart1, la_tem_buf, LA_RX_BUFSIZE);
-//}
-
-///* DMA IDLE中断回调（核心：接收数据存入环形缓冲区） */
-//void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
-//{
-//    if (huart == &huart1)
-//    {
-//        /* 保存接收到的所有数据（Size为实际接收字节数） */
-//        for (int i = 0; i < Size; i++)
-//        {
-//			//get_stop_cmd = 1;
-//            Circle_Buf_Write(g_la_rx_buf, la_tem_buf[i]);
-//        }
-
-//        /* 重启DMA接收，避免断流 */
-//        HAL_UARTEx_ReceiveToIdle_DMA(&huart1, la_tem_buf, LA_RX_BUFSIZE);
-//    }
-//}
-
-///* 带超时读取串口字节（基于环形缓冲区） */
-//la_status LA_UARTGetCharTimeout(uint8_t *pVal, int timeout)
-//{
-//	int err;
-//    
-//	while (1)
-//	{
-//        err = Circle_Buf_Read(g_la_rx_buf, pVal);
-//        if (!err)
-//            return LA_OK;
-
-//        if (timeout--)
-//        {
-//            HAL_Delay(1);
-//        }
-//        else
-//        {
-//            return LA_ERROR;
-//        }
-//	} 
-
-//}
-
-///* ===================== 串口发送函数修复 ===================== */
-//// 发送单个字节
-
-//la_status LA_Send_byte(uint8_t sendata)
-//{
-//    if (HAL_UART_Transmit(&huart1, &sendata, 1, LA_TIMOUT) == HAL_OK)
-//        return LA_OK;
-//    else
-//        return LA_ERROR;
-//}
-
-//la_status LA_Send_4Byte(uint8_t *sendata)
-//{
-//    if (HAL_UART_Transmit(&huart1, sendata, 4, LA_TIMOUT) == HAL_OK)
-//        return LA_OK;
-//    else
-//        return LA_ERROR;
-//}
-
-//la_status LA_Send_String(char *str)
-//{
-//    if (HAL_UART_Transmit(&huart1, (uint8_t*)str, strlen(str), LA_TIMOUT) == HAL_OK)
-//        return LA_OK;
-//    else
-//        return LA_ERROR;
-//}
-
-//la_status LA_Send_BigEndian(uint32_t data)
-//{
-//    uint8_t sendata[4];
-//    sendata[0] = BYTE3(data);
-//    sendata[1] = BYTE2(data);
-//    sendata[2] = BYTE1(data);
-//    sendata[3] = BYTE0(data);
-//    if (HAL_UART_Transmit(&huart1, sendata, 4, LA_TIMOUT) == HAL_OK)
-//        return LA_OK;
-//    else
-//        return LA_ERROR;
-//}
-
-///* ===================== 辅助函数 ===================== */
-//static uint32_t min(uint32_t a,uint32_t b)
-//{
-//    return (a < b) ? a : b ;
-//}
-
-//static void setSamplingDivider (uint32_t divider)
-//{
-//    // 修正：F103主频72MHz，计算实际采样率
-//    int f = 72000000 / (divider + 1);
-//    if(f > LA_MAX_FREQUENCY)
-//        f = LA_MAX_FREQUENCY;
-//    g_SampleRate = f;
-//}
-
-//static void setsampleNumber(uint32_t s)
-//{
-//    sampleNumber = min((uint32_t)LA_RX_DATASIZE, s); // 限制为实际缓冲区大小
-//}
-
-//static void setsamplingDelay(uint32_t s)
-//{
-//    g_sampleDelay = s;
-//    if (g_sampleDelay > LA_MAX_FREQUENCY) 
-//        g_sampleDelay = LA_MAX_FREQUENCY;
-//}
-
-//static void setg_triggerState(uint32_t s)
-//{
-//    g_triggerState = s;
-//}
-
-//static void setg_triggerMask(uint32_t s)
-//{
-//    g_triggerMask = s;
-//}
-
-//static void setg_triggerValue(uint32_t s)
-//{
-//    g_triggerValue = s;
-//}
-
-//static void setflags(uint32_t s)
-//{
-//    flags = s;
-//}
-///* ===================== 中断控制 ===================== */
-//#define SYSTICK_CTRL    (*((volatile uint32_t *)0xE000E010))
-//#define SYSTICK_TICKINT (1 << 1)
-
-//void Disable_TickIRQ(void)
-//{
-//    __disable_irq(); // 关闭全局中断（增强稳定性）
-//    SYSTICK_CTRL &= ~SYSTICK_TICKINT;
-//}
-
-//void Enable_TickIRQ(void)
-//{
-//    SYSTICK_CTRL |= SYSTICK_TICKINT;
-//    __enable_irq(); // 开启全局中断
-//}
-
-///* ===================== 采样函数（保留PA12） ===================== */
-//static void start(void)
-//{
-//	uint8_t data = 0;
-//	uint8_t pre_data = 0;
-//    uint32_t convreted_sample_count = sampleNumber * (LA_MAX_FREQUENCY / g_SampleRate);
-//    volatile uint32_t* pa12_reg = (volatile uint32_t*)(GPIOA_BASE + 0x10); // PA12 BSRR
-//	volatile uint16_t *data_reg = (volatile uint16_t *)0x40010C08; // GPIOB IDR (PB8-PB15)
-
-//    // 初始化状态
-//    get_stop_cmd = 0;
-//    g_cur_pos = 0;
-//    g_cur_sample_cnt = 0;
-
-
-//    // 关闭中断，避免采样被打断
-//    Disable_TickIRQ();
-//	
-//    memset(g_cnt_buf, 0, sizeof(g_cnt_buf));
-//	
-//    // 等待触发条件
-//    if (g_triggerState && g_triggerMask)
-//    {
-//        while (1)
-//        {
-//            data = (*data_reg) >> 8;
-//            // 触发条件匹配
-//            if ((data & g_triggerMask) == (g_triggerValue & g_triggerMask)) break;
-//            if ((~data & g_triggerMask) == (~g_triggerValue & g_triggerMask)) break;
-//            if (get_stop_cmd)
-//            {
-//                Enable_TickIRQ();
-//                return;
-//            }
-//        }
-//    }
-
-//    // 记录第一个采样数据
-//    data = (*data_reg) >> 8;
-//    g_data_buf[0] 	= data;
-//    g_cnt_buf[0] 	= 1;
-//    g_cur_sample_cnt= 1;
-//    pre_data = data;
-
-//    // 最高频率采样（保留PA12控制）
-//    while (1)
-//    {
-//        *pa12_reg = (1 << 12); // PA12置高
-//        
-//        // 读取GPIO数据
-//        data = (*data_reg) >> 8;
-//        
-//        // 缓冲区边界保护
-//        if (g_cur_pos >= LA_RX_DATASIZE - 1) break;
-//        
-//        // 数据变化时切换存储位置
-//        g_cur_pos += (data != pre_data) ? 1 : 0;
-//        g_data_buf[g_cur_pos] = data;
-//        g_cnt_buf[g_cur_pos]++;
-//        g_cur_sample_cnt++;
-//        pre_data = data;
-
-//        // 退出条件
-//        if (get_stop_cmd) break;
-//        if (g_cur_sample_cnt >= convreted_sample_count) break;
-
-
-//        // 1MHz延时（60个nop≈1us）
-//        __asm volatile(
-//            "nop; nop; nop; nop; nop; nop; nop; nop; nop; nop; "
-//            "nop; nop; nop; nop; nop; nop; nop; nop; nop; nop; "
-//            "nop; nop; nop; nop; "
-////            "nop; nop; nop; nop; nop; nop; nop; nop; nop; nop; "
-////            "nop; nop; nop; nop; nop; nop; nop; nop; nop; nop; "
-////            "nop; nop; nop; nop; nop; nop; nop; nop; nop; nop; "
-//        );
-//        
-//        *pa12_reg = (1UL << (12 + 16)); // PA12置低（BSRR高16位）
-//    }
-
-//    // 恢复中断
-//    Enable_TickIRQ();
-//}
-
-///* ===================== 数据上报 ===================== */
-//static void upload(void)
-//{
-//    int32_t i = g_cur_pos;
-//    uint32_t j ;
-//    uint32_t rate = LA_MAX_FREQUENCY / g_SampleRate;
-//    int cnt = 0;
-//    
-//    for( ; i>=0 ; i--)
-//    {
-//        for(j = 0; j < g_cnt_buf[i] ;j++)
-//        {
-//            cnt++;
-//            if(cnt == rate)
-//            {
-//                LA_Send_byte(g_data_buf[i]);
-//                cnt = 0;
-//            }
-//        }
-//    }
-//}
-
-//static void run(void)
-//{
-// // 调试：发送一个标记字节，串口助手能看到说明run()被执行了
-//    LA_Send_byte(0xAA);
-//    start();
-//    upload();
-//}
-
-///* ===================== 主协议解析 ===================== */
-//void LogicalAnalyser()
-//{
-//    uint8_t cmd_buf[5];
-//    uint8_t cmd_index = 0;
-//    uint8_t cmd_byte;
-
-//    while (1)
-//    {
-//        if (LA_UARTGetCharTimeout(&cmd_byte, LA_TIMEFOREVER) == LA_OK)
-//        {
-//            cmd_buf[cmd_index] = cmd_byte;
-//            
-//            switch (cmd_buf[0])
-//            {
-//                case CMD_RESET:
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-
-//                case CMD_ID:
-//				{
-//					 // 发送SUMP识别码"1ALS"（关键：扫描识别）
-//                    LA_Send_4Byte((uint8_t*)"1ALS");
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				}
-//                   
-
-//                case CMD_METADATA:
-//				{
-
-//                    // 完整元数据（补全0x20字段，上位机识别关键）
-//                    LA_Send_byte(0x01);          // 设备名Token
-//                    LA_Send_String("LA_YUQIRI");     // 设备名
-//                    LA_Send_byte(0x00);          // 字符串结束
-//                    
-//                    LA_Send_byte(0x20);          // 长格式通道数Token
-//                    LA_Send_BigEndian(LA_MAX_CHANNELS); // 8通道
-//                    
-//                    LA_Send_byte(0x21);          // 采样内存Token
-//                    LA_Send_BigEndian(g_virtual_bufferSize);
-//                    
-//                    LA_Send_byte(0x22);          // 动态内存Token
-//                    LA_Send_BigEndian(0);
-//                    
-//                    LA_Send_byte(0x23);          // 最大采样率Token
-//                    LA_Send_BigEndian(LA_MAX_FREQUENCY);
-//                    
-//                    LA_Send_byte(0x40);          // 短格式通道数Token
-//                    LA_Send_byte(LA_MAX_CHANNELS);
-//                    
-//                    LA_Send_byte(0x41);          // 协议版本Token
-//                    LA_Send_byte(0x02);
-//                    
-//                    LA_Send_byte(0x00);          // 元数据结束
-//                    
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				}
-//					
-
-//                case CMD_SET_BASIC_TRIGGER_MASK0:
-//				{
-//					cmd_index++;
-//                    if(cmd_index < 5) 
-//					continue;
-//                    setg_triggerMask(*(uint32_t*)(cmd_buf + 1));
-//                    cmd_index = 0;
-//                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				}
-//                    
-
-//                case CMD_SET_BASIC_TRIGGER_VALUE0:
-//				{
-//					cmd_index++;
-//                    if(cmd_index < 5) 
-//					continue;
-//                    setg_triggerValue(*(uint32_t*)(cmd_buf + 1));
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				}
-//                    
-
-//                case CMD_SET_BASIC_TRIGGER_CONFIG0:
-//					{
-//						cmd_index++;
-//						if(cmd_index < 5) 
-//						break;
-//						uint8_t serial = (*((uint8_t*)(cmd_buf + 4)) & 0x04) > 0 ? 1 : 0;
-//						uint8_t state = (*((uint8_t*)(cmd_buf + 4)) & 0x08) > 0 ? 1 : 0;
-//						setg_triggerState(serial ? 0 : state);
-////						cmd_index = 0;
-////						memset(cmd_buf, 0, sizeof(cmd_buf));
-//						break;
-//					}
-//                    
-
-//                case CMD_SET_DIVIDER:
-//				{
-//					cmd_index++;
-//                    if(cmd_index < 5) 
-//					continue;
-//                    setSamplingDivider(*(uint32_t*)(cmd_buf + 1));
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				}
-//                    
-
-//                case CMD_CAPTURE_SIZE:
-//					{
-//						cmd_index++;
-//						if(cmd_index < 5) 
-//						continue;
-//						// 修正：SUMP协议顺序（delayCount在前，readCount在后）
-//						uint32_t delayCount = *(uint16_t*)(cmd_buf + 1);
-//						uint32_t readCount = *(uint16_t*)(cmd_buf + 3);
-//						setsampleNumber(4 * readCount);
-//						setsamplingDelay(4 * delayCount);
-////						cmd_index = 0;
-////						memset(cmd_buf, 0, sizeof(cmd_buf));
-//						break;
-//					}
-//                    
-
-//                case CMD_ARM_BASIC_TRIGGER:
-//				{
-//					run();
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				}
-//                    
-
-//                case CMD_XOFF:
-////                    get_stop_cmd = 1;
-////                    cmd_index = 0;
-////                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    break;
-//				case CMD_SET_FLAGS:
-//				{
-//					cmd_index++;
-//					if(cmd_index < 5)
-//						continue;
-//					setflags(*(uint32_t *)(cmd_buf + 1));
-//					break;
-//				}
-//				case CMD_CAPTURE_DELAYCOUNT:
-//				{
-//					cmd_index++;
-//					if(cmd_index < 5)
-//						continue;
-//					
-//					uint32_t delayCount  = *((uint32_t*)(cmd_buf + 1));
-//					setsamplingDelay(4 * delayCount);	
-//					cmd_index = 0; // 重置
-//					break;
-//				}									
-//				case CMD_CAPTURE_READCOUNT:
-//				{
-//					cmd_index++;
-//					if(cmd_index < 5)
-//						continue;
-//					uint32_t readCount  = *((uint32_t*)(cmd_buf + 1));
-//					setsampleNumber(4 * readCount);				
-//					cmd_index = 0; //  重置					
-//					break;
-//				}
-//                default:
-//					{
-//					}
-//                    cmd_index = 0;
-//                    memset(cmd_buf, 0, sizeof(cmd_buf));
-//                    
-//            }
-//        }
-//    }
-//}
+//
+// Created by yuqiri on 2025/11/26.
+//
 
 #include "string.h"
 #include "main.h"
@@ -550,6 +8,8 @@
 #include "stdbool.h"
 #include "stddef.h"
 
+
+//#define USB_ASM_TO_SAMPLE/*汇编采集数据，提高采样率*/
 /* 全局串口句柄（确保main.c中初始化huart1，波特率115200） */
 extern UART_HandleTypeDef huart1;
 
@@ -806,8 +266,10 @@ void Enable_TickIRQ(void) {
 static void start(void)
 {
     uint8_t data;
+	uint8_t data_pre;
+	
     // 固定抓 512 个点，足够显示很多次 PWM 变化
-    const int sample_total = 512;
+    const int sample_total = LA_RX_DATASIZE;
 
     volatile uint16_t *data_reg = (volatile uint16_t *)0x40010C08; // GPIOB_IDR
 
@@ -822,22 +284,30 @@ static void start(void)
     {
         for (int i = 0; i < 10000; i++); // 小延时，防止卡死
     }
-
+	
+	//先读一次pb8-15数据,存data_pre，进入循环了再一直读pb8-15数据
+	data = ((*data_reg) >> 8);
+	data_pre = data;
+		
     // ==============================
     // 核心：连续采样 512 个点，每个点都存
     // ==============================
     while (g_cur_sample_cnt < sample_total)
     {
         // 读 PB8 → channel0
-        data = ((*data_reg) >> 8) & 0x01;
-
-        // 每个点都存，不合并、不判断、不优化
-        g_rxdata_buf[g_cur_sample_cnt] = data;
-        g_cur_sample_cnt++;
+        data = ((*data_reg) >> 8);
+		
+        // 点变化了再存，合并、判断
+		if(data_pre != data)
+		{
+			g_rxdata_buf[g_cur_sample_cnt] = data;
+			data_pre = data;
+			g_cur_sample_cnt++;
+		}
+        
 
         // ==============================
         // 关键延时！必须够慢才能抓到 PWM 变化
-        // 你现在就是太快了，只抓到一瞬间
         // ==============================
         for (int i = 0; i < 30; i++)
         {
@@ -851,7 +321,7 @@ static void start(void)
 static void upload(void)
 {
     // 只发 512 字节，标准 SUMP 格式，PulseView 绝对不崩溃
-    for (int i = 0; i < 512; i++)
+    for (int i = 0; i < LA_RX_DATASIZE; i++)
     {
         while (HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);
         send_byte(g_rxdata_buf[i],LA_TIMOUT);
