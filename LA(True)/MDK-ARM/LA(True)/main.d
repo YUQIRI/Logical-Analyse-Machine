@@ -28,10 +28,18 @@ la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h
+la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h
+la(true)\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h
 la(true)\main.o: ../Core/Inc/dma.h
 la(true)\main.o: ../Core/Inc/tim.h
 la(true)\main.o: ../Core/Inc/usart.h
-la(true)\main.o: ../Core/Inc/gpio.h
-la(true)\main.o: ../Core/Inc/la_sump.h
+la(true)\main.o: ../USB_DEVICE/App/usb_device.h
+la(true)\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
+la(true)\main.o: ../USB_DEVICE/Target/usbd_conf.h
 la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+la(true)\main.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\string.h
+la(true)\main.o: ../Core/Inc/gpio.h
+la(true)\main.o: ../Core/Inc/la_sump.h
+la(true)\main.o: ../Core/Inc/circle_buffer.h

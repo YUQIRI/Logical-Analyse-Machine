@@ -57,6 +57,8 @@ void PendSV_Handler(void);
 void SysTick_Handler(void);
 void DMA1_Channel4_IRQHandler(void);
 void DMA1_Channel5_IRQHandler(void);
+void USB_HP_CAN1_TX_IRQHandler(void);
+void USB_LP_CAN1_RX0_IRQHandler(void);
 void TIM3_IRQHandler(void);
 void TIM4_IRQHandler(void);
 void USART1_IRQHandler(void);
