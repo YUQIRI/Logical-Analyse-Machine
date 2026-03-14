@@ -7,16 +7,24 @@
 #include "stdint.h"
 #include "stdbool.h"
 #include "stddef.h"
+#include "driver_timer.h"
+#include "circle_buffer.h"
+#include "usbd_cdc_if.h"
 
+//#define USE_UART1 //若用uart传输解除该注释
 
-//#define USB_ASM_TO_SAMPLE/*汇编采集数据，提高采样率*/
+#define USE_ASM_TO_SAMPLE /*汇编采集数据，提高采样率*/
+#ifdef USE_ASM_TO_SAMPLE
+	extern void sample_function(void) __asm("sample_function");
+#endif
+
 /* 全局串口句柄（确保main.c中初始化huart1，波特率115200） */
 extern UART_HandleTypeDef huart1;
 
 /* ===================== 核心配置宏定义 ===================== */
 #define LA_TIMOUT         100u        // 串口发送超时时间(ms)
 #define UART_RX_BUF_SIZE  128         // 串口接收缓冲区大小
-#define LA_RX_DATASIZE    3500         // 采样缓冲区大小
+#define LA_RX_DATASIZE    1024         // 采样缓冲区大小
 #define LA_MAX_CHANNELS   8           // 最大通道数
 #define LA_MAX_FREQUENCY  1000000ul   // 最大采样率(1MHz)
 #define LA_TIMEFOREVER    0xFFFFFFFFul// 永久超时
@@ -53,6 +61,26 @@ typedef enum {
 #define METADATA_TOKEN_NUM_PROBES_SHORT       0x40
 #define METADATA_TOKEN_PROTOCOL_VERSION_SHORT 0x41
 
+/* Bit mask used for "set flags" command (0x82) */
+/* Take care about bit positions in diagrams, they are inverted. */
+#define CAPTURE_FLAG_RLEMODE1            (1 << 15)
+#define CAPTURE_FLAG_RLEMODE0            (1 << 14)
+#define CAPTURE_FLAG_RESERVED1           (1 << 13)
+#define CAPTURE_FLAG_RESERVED0           (1 << 12)
+#define CAPTURE_FLAG_INTERNAL_TEST_MODE  (1 << 11)
+#define CAPTURE_FLAG_EXTERNAL_TEST_MODE  (1 << 10)
+#define CAPTURE_FLAG_SWAP_CHANNELS       (1 << 9)
+#define CAPTURE_FLAG_RLE                 (1 << 8)
+#define CAPTURE_FLAG_INVERT_EXT_CLOCK    (1 << 7)
+#define CAPTURE_FLAG_CLOCK_EXTERNAL      (1 << 6)
+#define CAPTURE_FLAG_DISABLE_CHANGROUP_4 (1 << 5)
+#define CAPTURE_FLAG_DISABLE_CHANGROUP_3 (1 << 4)
+#define CAPTURE_FLAG_DISABLE_CHANGROUP_2 (1 << 3)
+#define CAPTURE_FLAG_DISABLE_CHANGROUP_1 (1 << 2)
+#define CAPTURE_FLAG_NOISE_FILTER        (1 << 1)
+#define CAPTURE_FLAG_DEMUX               (1 << 0)
+
+
 /* ===================== 字节操作宏 ===================== */
 #define BYTE0(v) (v & 0xff)        // 最低位字节
 #define BYTE1(v) ((v >> 8) & 0xff)
@@ -61,19 +89,21 @@ typedef enum {
 
 /* ===================== 全局变量 ===================== */
 static volatile uint8_t sampling_en = 0; // 采样使能标志（1-采样中，0-停止）
-volatile int get_stop_cmd = 0;               // 停止采样指令
+// int get_stop_cmd = 0;               // 停止采样指令
 static uint32_t g_samplingRate = 0;          // 当前采样率
 static uint32_t g_sampleDelay = 0;           // 采样延迟
 static uint32_t g_sampleNumber = 0;          // 采样数量
 static uint32_t g_triggerMask = 0;           // 触发掩码
 static uint32_t g_triggerValue = 0;          // 触发值
 static uint8_t g_triggerState = 0;           // 触发使能状态
-static uint8_t g_rxdata_buf[LA_RX_DATASIZE]; // 采样数据缓冲区
-static uint32_t g_rxcnt_buf[LA_RX_DATASIZE]; // 采样计数缓冲区
-static int32_t g_cur_pos = 0;                // 当前采样位置
-static int32_t g_cur_sample_cnt = 0;         // 当前采样计数
+  uint8_t g_rxdata_buf[LA_RX_DATASIZE]; // 采样数据缓冲区
+  uint32_t g_rxcnt_buf[LA_RX_DATASIZE]; // 采样计数缓冲区
+  int32_t g_cur_pos = 0;                // 当前采样位置
+  int32_t g_cur_sample_cnt = 0;         // 当前采样计数
 static uint32_t g_virtual_bufferSize = LA_RX_DATASIZE; // 虚拟缓冲区大小
 static uint32_t g_flags = 0;                 // 协议标志位
+
+volatile uint32_t g_convreted_sample_count = 0;
 
 /* ===================== 极简环形缓冲区（无第三方依赖） ===================== */
 static uint8_t uart_rx_buf[UART_RX_BUF_SIZE]; // 串口接收缓冲区
@@ -90,10 +120,15 @@ static uint8_t la_tem_buf[UART_RX_BUF_SIZE];  // DMA临时接收缓冲区
  * @return 0-成功, -1-失败
  */
 int uart_send(uint8_t *datas, int len, int timeout) {
-    if (HAL_UART_Transmit(&huart1, datas, len, timeout) == HAL_OK)
+	#ifdef USE_UART1    
+		if (HAL_UART_Transmit(&huart1, datas, len, timeout) == HAL_OK)
         return 0;
     else
         return -1;
+	#else
+		return usb_send(datas, len, timeout);
+	#endif
+
 }
 
 /**
@@ -150,19 +185,24 @@ get_stop_cmd = 1;
  * @param timeout 超时时间(ms)
  * @return 0-成功, -1-超时/失败
  */
-int uart_recv(uint8_t *pVal, int timeout) {
-    // 等待缓冲区有数据或超时
-    while (uart_rx_head == uart_rx_tail && timeout > 0) {
-        HAL_Delay(1);
-        timeout--;
-    }
-    // 超时判断
-    if (uart_rx_head == uart_rx_tail)
-        return -1;
-    // 读取数据并更新尾指针
-    *pVal = uart_rx_buf[uart_rx_tail];
-    uart_rx_tail = (uart_rx_tail + 1) % UART_RX_BUF_SIZE;
-    return 0;
+//int uart_recv(uint8_t *pVal, int timeout) {
+//    // 等待缓冲区有数据或超时
+//    while (uart_rx_head == uart_rx_tail && timeout > 0) {
+//        HAL_Delay(1);
+//        timeout--;
+//    }
+//    // 超时判断
+//    if (uart_rx_head == uart_rx_tail)
+//        return -1;
+//    // 读取数据并更新尾指针
+//    *pVal = uart_rx_buf[uart_rx_tail];
+//    uart_rx_tail = (uart_rx_tail + 1) % UART_RX_BUF_SIZE;
+//    return 0;
+//}
+
+static int uart_recv(uint8_t *pVal, int timeout)
+{
+    return UARTGetCharTimeout(pVal, timeout);
 }
 
 /* ===================== 辅助函数 ===================== */
@@ -238,24 +278,24 @@ static void setFlags(uint32_t s) {
 }
 
 /* ===================== 中断控制函数 ===================== */
-#define SYSTICK_CTRL    (*((volatile uint32_t *)0xE000E010))
-#define SYSTICK_TICKINT (1 << 1)
+//#define SYSTICK_CTRL    (*((volatile uint32_t *)0xE000E010))
+//#define SYSTICK_TICKINT (1 << 1)
 
-/**
- * @brief 禁用SysTick中断（采样时避免干扰）
- */
-void Disable_TickIRQ(void) {
-    __disable_irq(); // 关闭全局中断
-    SYSTICK_CTRL &= ~SYSTICK_TICKINT;
-}
+///**
+// * @brief 禁用SysTick中断（采样时避免干扰）
+// */
+//void Disable_TickIRQ(void) {
+//    __disable_irq(); // 关闭全局中断
+//    SYSTICK_CTRL &= ~SYSTICK_TICKINT;
+//}
 
-/**
- * @brief 启用SysTick中断
- */
-void Enable_TickIRQ(void) {
-    SYSTICK_CTRL |= SYSTICK_TICKINT;
-    __enable_irq();  // 开启全局中断
-}
+///**
+// * @brief 启用SysTick中断
+// */
+//void Enable_TickIRQ(void) {
+//    SYSTICK_CTRL |= SYSTICK_TICKINT;
+//    __enable_irq();  // 开启全局中断
+//}
 
 /* ===================== 采样核心函数 ===================== */
 /**
@@ -268,6 +308,8 @@ static void start(void)
     uint8_t data;
 	uint8_t data_pre;
 	
+	g_convreted_sample_count = g_sampleNumber * (LA_MAX_FREQUENCY / g_samplingRate);
+	
     // 固定抓 512 个点，足够显示很多次 PWM 变化
     const int sample_total = LA_RX_DATASIZE;
 
@@ -277,7 +319,7 @@ static void start(void)
     g_cur_sample_cnt = 0;
 
     Disable_TickIRQ();
-    memset(g_rxdata_buf, 0, sizeof(g_rxdata_buf));
+    memset((void *)g_rxdata_buf, 0, sizeof(g_rxdata_buf));
 
     // 触发直接跳过，立即采样
     if (g_triggerState && g_triggerMask)
@@ -288,7 +330,12 @@ static void start(void)
 	//先读一次pb8-15数据,存data_pre，进入循环了再一直读pb8-15数据
 	data = ((*data_reg) >> 8);
 	data_pre = data;
-		
+	
+	//最高速率采集数据
+#ifdef USE_ASM_TO_SAMPLE
+	sample_function();
+#else
+	
     // ==============================
     // 核心：连续采样 512 个点，每个点都存
     // ==============================
@@ -314,19 +361,189 @@ static void start(void)
             __NOP();
         }
     }
-
+#endif
     Enable_TickIRQ();
 }
 /* ===================== 批量上传函数（标准SUMP协议版） ===================== */
-static void upload(void)
-{
-    // 只发 512 字节，标准 SUMP 格式，PulseView 绝对不崩溃
-    for (int i = 0; i < LA_RX_DATASIZE; i++)
-    {
-        while (HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);
-        send_byte(g_rxdata_buf[i],LA_TIMOUT);
-    }
-}
+
+//static void upload(void)
+//{
+//    // 只发 512 字节，标准 SUMP 格式，PulseView 绝对不崩溃
+//    for (int i = 0; i < LA_RX_DATASIZE; i++)
+//    {
+//        while (HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX);
+//        send_byte(g_rxdata_buf[i],LA_TIMOUT);
+//    }
+//}
+
+/********************************************************************** 
+* 函数名称： uart_save_in_buf_and_send 
+* 功能描述： 使用USB传输时,一个一个字节地传输效率非常低,尽量一次传输64字节 
+* 输入参数： datas - 保存有要发送的数据 
+*            
+len - 数据长度 
+*            
+timeout - 超时时间(ms) 
+*            
+flush - 1(即刻发送), 0(可以先缓存起来) 
+* 输出参数： 无 
+* 返 回 值： 无 
+* 修改日期：      
+版本号     修改人       修改内容 
+* ----------------------------------------------- 
+* 2024/07/06        
+V1.0     
+韦东山       
+创建 
+ 
+ ***********************************************************************/ 
+static void uart_save_in_buf_and_send(uint8_t *datas, int len, int timeout, int flush) 
+{ 
+    static uint8_t buf[64]; 
+    static int32_t cnt = 0; 
+ 
+    for (int32_t i = 0; i < len; i++) 
+    { 
+        buf[cnt++] = datas[i]; /* 先存入buf, 凑够63字节再发送 */ 
+        if (cnt == 63) 
+        { 
+            /* 对于USB传输,它内部发送64字节数据后还要发送一个零包 
+             * 所以我们只发送63字节以免再发送零包 
+             */ 
+            uart_send(buf, cnt, timeout); 
+            cnt = 0; 
+        } 
+    } 
+ 
+    /* 如果指定要"flush"(比如这是最后要发送的数据了), 则发送剩下的数据 */ 
+    if (flush && cnt) 
+    { 
+        uart_send(buf, cnt, timeout); 
+        cnt = 0; 
+    } 
+} 
+ 
+/********************************************************************** 
+ * 函数名称： upload _ RLE
+ * 功能描述： RLE上报数据 
+ * 输入参数： 无 
+ * 输出参数： 无 
+ * 返 回 值： 无 
+ * 修改日期：      版本号     修改人       修改内容 
+ * ----------------------------------------------- 
+ * 2024/07/04        V1.0     韦东山       创建 
+ ***********************************************************************/ 
+static void upload (void) 
+{ 
+    int32_t i = g_cur_pos; 
+    uint32_t j; 
+    uint32_t rate = LA_MAX_FREQUENCY / g_samplingRate; 
+    int cnt = 0; 
+    uint8_t pre_data; 
+    uint8_t data; 
+    uint8_t rle_cnt = 0; 
+     
+ for (; i >= 0; i--) 
+ { 
+        for (j = 0; j < g_rxcnt_buf[i]; j++) 
+        { 
+            cnt++;   
+            /* 我们以最大频率采样, 假设最大频率是1MHz 
+百问网 
+ 47  
+             * 上位机想以200KHz的频率采样 
+             * 那么在得到的数据里, 每5个里只需要上报1个 
+             */ 
+            if (cnt == rate)  
+            { 
+                if (g_flags & CAPTURE_FLAG_RLE) 
+                { 
+                    /* RLE : Run Length Encoding, 在数据里嵌入长度, 在传输重复的数据时可以提
+高效率 
+                     * 先传输长度: 最高位为1表示长度, 去掉最高位的数值为n, 表示有(n+1)个数据 
+                     * 再传输数据本身 (数据的最高位必须为0) 
+                     * 例子1: 对于8通道的数据, channel 7就无法使用了 
+                     * 要传输10个数据 0x12时, 只需要传输2字节: 0x89 0x12 
+                     * 0x89的最高位为1, 表示有(9+1)个相同的数据, 数据为0x12 
+                     *  
+                     * 例子2: 对于32通道的数据, channel 31就无法使用了 
+                     * 要传输10个数据 0x12345678时, 只需要传输8字节: 0x09 0x00 0x00 0x80 
+0x78 0x56 0x34 0x12 
+                     * "0x09 0x00 0x00 0x80"的最高位为1, 表示有(9+1)个相同的数据, 数据为
+"0x78 0x56 0x34 0x12" 
+                     */ 
+                     
+                    data = g_rxdata_buf[i] & ~0x80; /* 使用RLE时数据的最高位要清零 */; 
+                     
+                    if (rle_cnt == 0) 
+                    { 
+                        pre_data = data; 
+                        rle_cnt = 1; 
+                    } 
+                    else if (pre_data == data) 
+                    { 
+                        rle_cnt++; /* 数据相同则累加个数 */ 
+                    } 
+                    else if (pre_data != data) 
+                    { 
+                        /* 数据不同则上传前面的数据 */ 
+                     
+                        if (rle_cnt == 1) /* 如果前面的数据只有一个,则无需RLE编码 */ 
+                            uart_save_in_buf_and_send(&pre_data, 1, 100, 0); 
+                        else 
+                        { 
+                            /* 如果前面的数据大于1个,则使用RLE编码 */ 
+                            rle_cnt = 0x80 | (rle_cnt - 1); 
+                            uart_save_in_buf_and_send(&rle_cnt, 1, 100, 0); 
+                            uart_save_in_buf_and_send(&pre_data, 1, 100, 0); 
+                        } 
+                        pre_data = data; 
+                        rle_cnt = 1; 
+                    } 
+ 
+                    if (rle_cnt == 128) 
+                    { 
+                        /* 对于只有8个通道的逻辑分析仪, 只使用1个字节表示长度,最大长度为128 
+                         * 当相同数据个数累加到128个时, 
+                         * 就先上传 
+                         */ 
+                        rle_cnt = 0x80 | (rle_cnt - 1); 
+                        uart_save_in_buf_and_send(&rle_cnt, 1, 100, 0); 
+                        uart_save_in_buf_and_send(&pre_data, 1, 100, 0); 
+                        rle_cnt = 0; 
+                    } 
+                } 
+                else 
+                { 
+                    /* 上位机没有起到RLE功能则直接上传 */ 
+                    uart_save_in_buf_and_send(&g_rxdata_buf[i], 1, 100, 0); 
+                } 
+                 
+                cnt = 0; 
+            } 
+        } 
+ } 
+ 
+    /* 发送最后的数据 */ 
+    if ((g_flags | CAPTURE_FLAG_RLE) && rle_cnt) 
+    { 
+        if (rle_cnt == 1) 
+            uart_save_in_buf_and_send(&pre_data, 1, 100, 0); 
+        else 
+        { 
+            rle_cnt = 0x80 | (rle_cnt - 1); 
+            uart_save_in_buf_and_send(&rle_cnt, 1, 100, 0); 
+            uart_save_in_buf_and_send(&pre_data, 1, 100, 0); 
+        } 
+    } 
+ 
+    /* 为了提高USB上传效率,我们"凑够一定量的数据后才发送", 
+     * 现在都到最后一步了,剩下的数据全部flush、上传 
+百问网 
+*/ 
+uart_save_in_buf_and_send(NULL, 0, 100, 1); 
+} 
+
 
 /**
  * @brief 运行采样+上传流程
@@ -335,6 +552,8 @@ static void run(void) {
     start();
     upload();
 }
+
+
 
 /* ===================== 初始化函数 ===================== */
 /**

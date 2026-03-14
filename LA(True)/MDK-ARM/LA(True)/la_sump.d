@@ -29,4 +29,19 @@ la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h
+la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h
+la(true)\la_sump.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h
 la(true)\la_sump.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+la(true)\la_sump.o: ..\Drivers\driver\driver_timer.h
+la(true)\la_sump.o: ../Core/Inc/circle_buffer.h
+la(true)\la_sump.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+la(true)\la_sump.o: ../USB_DEVICE/App/usbd_cdc_if.h
+la(true)\la_sump.o: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+la(true)\la_sump.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+la(true)\la_sump.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
+la(true)\la_sump.o: ../USB_DEVICE/Target/usbd_conf.h
+la(true)\la_sump.o: E:\Program Files (x86)\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+la(true)\la_sump.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
+la(true)\la_sump.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+la(true)\la_sump.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h

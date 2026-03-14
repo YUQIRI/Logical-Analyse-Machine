@@ -22,29 +22,27 @@ Dialog DLL:      TCM.DLL V1.36.5.0
  
 <h2>Project:</h2>
 E:\YUQIRI\Logical-Analyse-Machine\LA(True)\MDK-ARM\LA(True).uvprojx
-Project File Date:  03/09/2026
+Project File Date:  03/13/2026
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\Program Files (x86)\Keil\ARM\ARMCC\Bin'
 Build target 'LA(True)'
 compiling la_sump.c...
-..\Lib\Logical_Analsyer\Src\la_sump.c(605): warning:  #550-D: variable "g_samplingRate"  was set but never used
-  static uint32_t g_samplingRate = 0;          // 当前采样率
-..\Lib\Logical_Analsyer\Src\la_sump.c(607): warning:  #550-D: variable "g_sampleNumber"  was set but never used
-  static uint32_t g_sampleNumber = 0;          // 采样数量
-..\Lib\Logical_Analsyer\Src\la_sump.c(609): warning:  #550-D: variable "g_triggerValue"  was set but never used
+..\Lib\Logical_Analsyer\Src\la_sump.c(309): warning:  #550-D: variable "data_pre"  was set but never used
+  	uint8_t data_pre;
+..\Lib\Logical_Analsyer\Src\la_sump.c(314): warning:  #177-D: variable "sample_total"  was declared but never referenced
+      const int sample_total = LA_RX_DATASIZE;
+..\Lib\Logical_Analsyer\Src\la_sump.c(97): warning:  #550-D: variable "g_triggerValue"  was set but never used
   static uint32_t g_triggerValue = 0;          // 触发值
-..\Lib\Logical_Analsyer\Src\la_sump.c(612): warning:  #177-D: variable "g_rxcnt_buf"  was declared but never referenced
-  static uint32_t g_rxcnt_buf[LA_RX_DATASIZE]; // 采样计数缓冲区
-..\Lib\Logical_Analsyer\Src\la_sump.c(613): warning:  #177-D: variable "g_cur_pos"  was declared but never referenced
-  static int32_t g_cur_pos = 0;                // 当前采样位置
-..\Lib\Logical_Analsyer\Src\la_sump.c(616): warning:  #550-D: variable "g_flags"  was set but never used
-  static uint32_t g_flags = 0;                 // 协议标志位
-..\Lib\Logical_Analsyer\Src\la_sump.c: 6 warnings, 0 errors
+..\Lib\Logical_Analsyer\Src\la_sump.c(109): warning:  #550-D: variable "uart_rx_buf"  was set but never used
+  static uint8_t uart_rx_buf[UART_RX_BUF_SIZE]; // 串口接收缓冲区
+..\Lib\Logical_Analsyer\Src\la_sump.c(111): warning:  #177-D: variable "uart_rx_tail"  was declared but never referenced
+  static uint16_t uart_rx_tail = 0;             // 接收缓冲区尾指针
+..\Lib\Logical_Analsyer\Src\la_sump.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=9612 RO-data=312 RW-data=60 ZI-data=5812  
+Program Size: Code=20576 RO-data=312 RW-data=440 ZI-data=12152  
 FromELF: creating hex file...
-"LA(True)\LA(True).axf" - 0 Error(s), 6 Warning(s).
+"LA(True)\LA(True).axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -67,7 +65,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.3.0
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

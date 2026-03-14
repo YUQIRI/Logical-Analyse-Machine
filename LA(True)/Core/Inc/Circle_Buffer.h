@@ -12,9 +12,16 @@ typedef struct CircleBuffer
     uint8_t  *buf;
 }CircleBuf, *p_circle_buf;
 
+extern CircleBuf g_uart_rx_bufs;
+extern uint8_t g_RecvBuf[100];
+extern volatile int get_stop_cmd ;
 void Circle_Buf_Init(p_circle_buf pCircleBuf, uint32_t Len, uint8_t *buf);
 int Circle_Buf_Write(p_circle_buf pCircleBuf, uint8_t Val);
 int Circle_Buf_Read(p_circle_buf pCircleBuf, uint8_t *pVal);
+
+int UARTGetChar(uint8_t *pVal);
+
+int UARTGetCharTimeout(uint8_t *pVal, int timeout);
 
 
 #endif

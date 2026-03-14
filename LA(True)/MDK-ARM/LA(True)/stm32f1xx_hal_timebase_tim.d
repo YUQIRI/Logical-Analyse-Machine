@@ -27,3 +27,6 @@ la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32
 la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h
+la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h
+la(true)\stm32f1xx_hal_timebase_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h
